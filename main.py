@@ -27,6 +27,16 @@ def ascii_video(video_path, width=80, fps=24):
 
     sys.stdout.write('\033[2J')
 
+    try:
+        while True:
+            start_time = time.time()
+
+    except KeyboardInterrupt:
+        pass
+    finally:
+        sys.stdout.write('\033[0m\n')
+        process.terminate()
+
 
 if __name__ == "__main__":
     ascii_video("input.mp4", width=100, fps=24)
