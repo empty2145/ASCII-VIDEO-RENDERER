@@ -19,7 +19,14 @@ def ascii_video(video_path, width=80, fps=24):
         '-loglevel', 'quiet',
         '-'
     ]
-    
+
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, bufsize=10**8)
+
+    frame_size = width * height * 3
+    frame_duration = 1.0 / fps
+
+    sys.stdout.write('\033[2J')
+
 
 if __name__ == "__main__":
     ascii_video("input.mp4", width=100, fps=24)
