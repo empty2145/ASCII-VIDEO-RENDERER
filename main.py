@@ -42,6 +42,10 @@ def ascii_video(video_path, width=80, fps=24):
                     idx = (y * width + x) * 3
                     r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
 
+                    luminance = int(0.299*r + 0.587*g + 0.114*b)
+                    char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
+                    char = ascii_chars[char_idx]
+
     except KeyboardInterrupt:
         pass
     finally:
