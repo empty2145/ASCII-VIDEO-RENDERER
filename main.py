@@ -35,6 +35,12 @@ def ascii_video(video_path, width=80, fps=24):
             if len(raw_frame) != frame_size:
                 break
 
+            output_buffer = ['\033[H']
+
+            for y in range(height):
+                for x in range(width):
+                    idx = (y * width + x) * 3
+                    r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
 
     except KeyboardInterrupt:
         pass
