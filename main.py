@@ -46,6 +46,10 @@ def ascii_video(video_path, width=80, fps=24):
                     char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
                     char = ascii_chars[char_idx]
 
+                    output_buffer.append(f'\033[38;2{r};{g}; {b}m{char}')
+
+                output_buffer.append('\n')
+
     except KeyboardInterrupt:
         pass
     finally:
