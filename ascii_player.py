@@ -11,7 +11,14 @@ def ascii_video(video_path, fps=24):
     aspect_ratio = 16 / 9
 
     calc_width = max_width
-    calc_height = int((calc_width / aspect_ration) / 2)
+    calc_height = int((calc_width / aspect_ratio) / 2)
+
+    if calc_height > max_height:
+        calc_height = max_height
+        calc_width = int(calc_height * 2 * aspect_ratio)
+
+    width = calc_width
+    height = calc_height
 
     ascii_chars = " .:-=+*#%@"
 
