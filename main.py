@@ -31,6 +31,11 @@ def ascii_video(video_path, width=80, fps=24):
         while True:
             start_time = time.time()
 
+            raw_frame = process.stdout.read(frame_size)
+            if len(raw_frame) != frame_size:
+                break
+
+
     except KeyboardInterrupt:
         pass
     finally:
