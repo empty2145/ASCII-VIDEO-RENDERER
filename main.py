@@ -53,6 +53,11 @@ def ascii_video(video_path, width=80, fps=24):
             sys.stdout.write(''.join(output_buffer))
             sys.stdout.flush()
 
+            elapsed = time.time() - start_time
+            sleep_time = frame_duration - elapsed
+            if sleep_time > 0:
+                time.sleep(sleep_time)
+
     except KeyboardInterrupt:
         pass
     finally:
