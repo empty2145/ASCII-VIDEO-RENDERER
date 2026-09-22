@@ -1,9 +1,17 @@
 import subprocess
 import time
 import sys
+import shutil
 
-def ascii_video(video_path, width=80, fps=24):
-    height = int((width * 9 / 16) / 2)
+def ascii_video(video_path, fps=24):
+    term_cols, term_lines = shutil.get_terminal_size()
+    max_height = term_lines - 1
+    max_width = term_cols
+
+    aspect_ratio = 16 / 9
+
+    calc_width = max_width
+    calc_height = int((calc_width / aspect_ration) / 2)
 
     ascii_chars = " .:-=+*#%@"
 
