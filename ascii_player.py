@@ -13,6 +13,14 @@ def aspect_ratio(video_path):
         '-of', 'json',
         video_path
     ]
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        info = json.loads(result.stdout)
+        width = info['streams'][0]['width']
+        height = info['streams'][0]['height']
+        return width / height
+    except Exception as e:
+        return 16 / 9
 
 def ascii_video(video_path, fps=24):
     term_cols, term_lines = shutil.get_terminal_size()
