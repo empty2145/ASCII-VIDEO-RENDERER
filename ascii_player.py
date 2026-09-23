@@ -2,10 +2,21 @@ import subprocess
 import time
 import sys
 import shutil
+import json
+
+def aspect_ratio(video_path):
+    command = [
+        'ffprobe',
+        '-v', 'error',
+        '-select_streams', 'v:0',
+        '-show_entries', 'stream=width,height',
+        '-of', 'json',
+        video_path
+    ]
 
 def ascii_video(video_path, fps=24):
     term_cols, term_lines = shutil.get_terminal_size()
-    
+
     max_height = term_lines - 1
     max_width = term_cols
 
