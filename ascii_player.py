@@ -39,12 +39,15 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
     max_height = term_lines - 1
     max_width = term_cols
 
+
+    font_ratio = 2
+
     calc_width = max_width
-    calc_height = int((calc_width / aspect_ratio) / 2)
+    calc_height = int((calc_width / aspect_ratio) / font_ratio)
 
     if calc_height > max_height:
         calc_height = max_height
-        calc_width = int(calc_height * 2 * aspect_ratio)
+        calc_width = int(calc_height * font_ratio * aspect_ratio)
 
     width = calc_width
     height = calc_height
@@ -114,7 +117,6 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
                         output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
 
                 output_buffer.append('\033[0m\n')
-                output_buffer.append('\n')
 
             sys.stdout.write(''.join(output_buffer))
             # smooth playback
