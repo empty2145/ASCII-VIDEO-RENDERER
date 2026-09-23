@@ -5,6 +5,7 @@ import shutil
 
 def ascii_video(video_path, fps=24):
     term_cols, term_lines = shutil.get_terminal_size()
+    
     max_height = term_lines - 1
     max_width = term_cols
 
@@ -81,4 +82,4 @@ def ascii_video(video_path, fps=24):
 
 
 if __name__ == "__main__":
-    ascii_video("badapple.mp4", width=100, fps=24)
+    ascii_video("badapple.mp4", fps=24)
