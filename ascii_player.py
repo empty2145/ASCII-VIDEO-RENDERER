@@ -129,6 +129,13 @@ def ascii_video(video_path, fps=24):
 # if __name__ == "__main__":
 #    ascii_video("badapple.mp4", fps=24)
 
+
+# ensure that the code is executed directly from the terminal
+# create the parser object. if user run the script with -h or -help desc will show up
+# positional argument if no then error
+# optional
+# boolean toggle switch
+# trigger the parser tow ork
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Play video in the terminal using ASCII/ANSI art.")
     parser.add_argument("video", help="Path to the video file")
@@ -138,4 +145,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.pixel:
-        print("Startign in the Pixel Art Mode...")
+        print("Starting in the Pixel Art Mode...")
