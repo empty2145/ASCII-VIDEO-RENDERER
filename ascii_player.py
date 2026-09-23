@@ -102,7 +102,10 @@ def ascii_video(video_path, fps=24):
                     char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
                     char = ascii_chars[char_idx]
                     # paint the pixel this color
-                    output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
+                    if getattr(sys, 'use_pixel_mode, False'):
+                        output_buffer.append(f'\033[48;2;{r};{g};{b}m{char}')
+                    else:
+                        output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
 
                 output_buffer.append('\n')
 
@@ -125,6 +128,7 @@ def ascii_video(video_path, fps=24):
 
 # if __name__ == "__main__":
 #    ascii_video("badapple.mp4", fps=24)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Play video in the terminal using ASCII/ANSI art.")
     parser.add_argument("video", help="Path to the video file")
