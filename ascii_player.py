@@ -71,7 +71,8 @@ def ascii_video(video_path, fps=24):
         '-'
     ]
 
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, bufsize=10**8)
+    audio_process = subprocess.Popen(audio_command)
+    video_process = subprocess.Popen(command, stdout=subprocess.PIPE, bufsize=10**8)
 
     frame_size = width * height * 3
     frame_duration = 1.0 / fps
@@ -82,7 +83,7 @@ def ascii_video(video_path, fps=24):
         while True:
             start_time = time.time()
 
-            raw_frame = process.stdout.read(frame_size)
+            raw_frame = video_process.stdout.read(frame_size)
             if len(raw_frame) != frame_size:
                 break
 
@@ -114,7 +115,8 @@ def ascii_video(video_path, fps=24):
         pass
     finally:
         sys.stdout.write('\033[0m\n')
-        process.terminate()
+        video_process.terminate()
+        audio_process.terminate()
 
 
 if __name__ == "__main__":
