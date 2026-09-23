@@ -107,12 +107,13 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
                     #     output_buffer.append(f'\033[48;2;{r};{g};{b}m{char}')
                     # else:
                     #     output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
-                    
+
                     if pixel_mode:
-                        output_buffer.append(f'\033[48;2;{r};{g};{b}m{char}')
+                        output_buffer.append(f'\033[48;2;{r};{g};{b}m ')
                     else:
                         output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
 
+                output_buffer.append('\033[0m\n')
                 output_buffer.append('\n')
 
             sys.stdout.write(''.join(output_buffer))
