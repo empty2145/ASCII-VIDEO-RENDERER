@@ -41,6 +41,14 @@ def ascii_video(video_path, fps=24):
 
     ascii_chars = " .:-=+*#%@"
 
+    audio_command = [
+        'ffplay',
+        '-nodisp',
+        '-autoexit',
+        '-loglevel', 'quiet',
+        video_path
+    ]
+
     # ask dat thing
     command = [
         'ffmpeg',
@@ -100,4 +108,4 @@ def ascii_video(video_path, fps=24):
 
 
 if __name__ == "__main__":
-    ascii_video("badapple.mp4", fps=24)
+    ascii_video("godfall.mp4", fps=24)
