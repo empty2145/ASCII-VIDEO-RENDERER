@@ -30,7 +30,7 @@ def get_aspect_ratio(video_path):
     except Exception as e:
         return 16 / 9
 
-def ascii_video(video_path, fps=24):
+def ascii_video(video_path, fps=24, pixel_mode=False):
     aspect_ratio = get_aspect_ratio(video_path)
 
     # take the width and height of the terminal
@@ -101,8 +101,14 @@ def ascii_video(video_path, fps=24):
                     luminance = int(0.299*r + 0.587*g + 0.114*b)
                     char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
                     char = ascii_chars[char_idx]
+
                     # paint the pixel this color
-                    if getattr(sys, 'use_pixel_mode, False'):
+                    # if getattr(sys, 'use_pixel_mode, False'):
+                    #     output_buffer.append(f'\033[48;2;{r};{g};{b}m{char}')
+                    # else:
+                    #     output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
+                    
+                    if pixel_mode:
                         output_buffer.append(f'\033[48;2;{r};{g};{b}m{char}')
                     else:
                         output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
