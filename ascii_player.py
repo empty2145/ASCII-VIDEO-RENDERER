@@ -50,6 +50,9 @@ def ascii_video(video_path, fps=24):
 
     ascii_chars = " .:-=+*#%@"
 
+    # separate vidoe but dont display
+    # when the audio trach ends exit
+    # silence all output
     audio_command = [
         'ffplay',
         '-nodisp',
@@ -120,4 +123,4 @@ def ascii_video(video_path, fps=24):
 
 
 if __name__ == "__main__":
-    ascii_video("godfall.mp4", fps=24)
+    ascii_video("badapple.mp4", fps=24)
