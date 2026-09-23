@@ -4,7 +4,7 @@ import sys
 import shutil
 import json
 
-def aspect_ratio(video_path):
+def get_aspect_ratio(video_path):
     command = [
         'ffprobe',
         '-v', 'error',
@@ -23,12 +23,11 @@ def aspect_ratio(video_path):
         return 16 / 9
 
 def ascii_video(video_path, fps=24):
-    term_cols, term_lines = shutil.get_terminal_size()
+    aspect_ratio = get_aspect_ratio(video_path)
 
+    term_cols, term_lines = shutil.get_terminal_size()
     max_height = term_lines - 1
     max_width = term_cols
-
-    aspect_ratio = 16 / 9
 
     calc_width = max_width
     calc_height = int((calc_width / aspect_ratio) / 2)
