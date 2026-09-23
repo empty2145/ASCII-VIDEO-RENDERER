@@ -5,6 +5,10 @@ import shutil
 import json
 
 def get_aspect_ratio(video_path):
+    # print only critical errors
+    # tell ffprobe to noly look at the video stream and niot the audio and subtitles stream
+    # fetch only width and height 
+    # output format json
     command = [
         'ffprobe',
         '-v', 'error',
@@ -14,6 +18,9 @@ def get_aspect_ratio(video_path):
         video_path
     ]
     try:
+        # await, pipe the output and error, convert the raw data into python string
+        # take the json and turn into dictionary(object in js)
+
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         info = json.loads(result.stdout)
         width = info['streams'][0]['width']
@@ -25,6 +32,8 @@ def get_aspect_ratio(video_path):
 def ascii_video(video_path, fps=24):
     aspect_ratio = get_aspect_ratio(video_path)
 
+    # take the width and height of the terminal
+    # leave a row empty at the bottom to remove the jumping
     term_cols, term_lines = shutil.get_terminal_size()
     max_height = term_lines - 1
     max_width = term_cols
@@ -87,12 +96,13 @@ def ascii_video(video_path, fps=24):
                     luminance = int(0.299*r + 0.587*g + 0.114*b)
                     char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
                     char = ascii_chars[char_idx]
-
+                    # paint the pixel this color
                     output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
 
                 output_buffer.append('\n')
 
             sys.stdout.write(''.join(output_buffer))
+            # smooth playback
             sys.stdout.flush()
 
             elapsed = time.time() - start_time
