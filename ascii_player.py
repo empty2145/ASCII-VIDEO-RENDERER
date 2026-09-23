@@ -144,5 +144,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.pixel:
-        print("Starting in the Pixel Art Mode...")
+    # hide terminal cursor
+    sys.stdout.write('\033[?25l')
+    try:
+        ascii_video(args.video, fps=args.fps, pixel_mode=args.pixel)
+    finally:
+        # return the cursor back
+        sys.stdout.write('\033[?25h')
