@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 import time
 import sys
@@ -122,5 +123,15 @@ def ascii_video(video_path, fps=24):
         audio_process.terminate()
 
 
+# if __name__ == "__main__":
+#    ascii_video("badapple.mp4", fps=24)
 if __name__ == "__main__":
-    ascii_video("badapple.mp4", fps=24)
+    parser = argparse.ArgumentParser(description="Play video in the terminal using ASCII/ANSI art.")
+    parser.add_argument("video", help="Path to the video file")
+    parser.add_argument("--fps", type=int, default=24, help="Frames per second (default: 24)")
+    parser.add_argument("--pixel", action="store_true", help="Use solid pixel blocks instead of ASCII characters")
+
+    args = parser.parse_args()
+
+    if args.pixel:
+        print("Startign in the Pixel Art Mode...")
