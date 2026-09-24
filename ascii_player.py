@@ -94,6 +94,13 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             if len(raw_frame) != frame_size:
                 break
 
+            luminance_map = [0.0] * (width * height)
+            for i in range(width * height):
+                idx = i * 3
+                r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
+                luminance_map[i] = 0.299*r + 0.587*g + 0.114*b
+
+
             output_buffer = ['\033[H']
 
             for y in range(height):
