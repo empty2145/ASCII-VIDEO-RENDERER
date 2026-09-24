@@ -105,19 +105,19 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
 
             for y in range(height):
                 for x in range(width):
-                    idx = (y * width + x) * 3
-                    r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
+                    idx = y * width + x
+                    old_lum = luminance_map[idx]
+                    old_lum = max(0.0, min(255.0, old_lum))
+                    char_idx = int(round((old_lum / 255.0) * (len(ascii_chars)-1)))
+                    new_lum = char_idx * (255.0 / (len(ascii_chars)-1))
+                    
+                    #r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
 
-                    luminance = int(0.299*r + 0.587*g + 0.114*b)
-                    char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
-                    char = ascii_chars[char_idx]
+                    # luminance = int(0.299*r + 0.587*g + 0.114*b)
+                    # char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
+                    # char = ascii_chars[char_idx]
 
                     # paint the pixel this color
-                    # if getattr(sys, 'use_pixel_mode, False'):
-                    #     output_buffer.append(f'\033[48;2;{r};{g};{b}m{char}')
-                    # else:
-                    #     output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
-
                     if pixel_mode:
                         output_buffer.append(f'\033[48;2;{r};{g};{b}m ')
                     else:
