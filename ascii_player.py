@@ -121,7 +121,10 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
                         luminance_map[idx + width] += quant_error * 0.3125
                         if x + 1 < width:
                             luminance_map[idx + width + 1] += quant_error * 0.0625
-                    
+
+                    rgb_idx = idx * 3
+                    r, g, b = raw_frame[rgb_idx], raw_frame[rgb_idx+1], raw_frame[rgb_idx+2]
+                    char = ascii_chars[char_idx]
                     #r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
 
                     # luminance = int(0.299*r + 0.587*g + 0.114*b)
