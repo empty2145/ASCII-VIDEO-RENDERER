@@ -110,6 +110,17 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
                     old_lum = max(0.0, min(255.0, old_lum))
                     char_idx = int(round((old_lum / 255.0) * (len(ascii_chars)-1)))
                     new_lum = char_idx * (255.0 / (len(ascii_chars)-1))
+
+                    quant_error = old_lum - new_lum
+
+                    if x + 1 < width:
+                        luminance_map[idx + 1] += quant_error * 0.4375
+                    if y + 1 < height:
+                        if x - 1 >= 0:
+                            luminance_map[idx + width - 1] += quant_error * 0.1875
+                        luminance_map[idx + width] += quant_error * 0.3125
+                        if x + 1 < width:
+                            luminance_map[idx + width + 1] += quant_error * 0.0625
                     
                     #r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
 
