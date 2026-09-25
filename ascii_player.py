@@ -94,16 +94,17 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             if len(raw_frame) != frame_size:
                 break
 
-            luminance_map = [0.0] * (width * height)
-            for i in range(width * height):
+            # luminance_map = [0.0] * (width * height)
+            # for i in range(width * height):
                 idx = i * 3
                 r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
                 luminance_map[i] = 0.299*r + 0.587*g + 0.114*b
 
 
-            output_buffer = ['\033[H']
 
-            for y in range(height):
+            # output_buffer = ['\033[H']
+
+            # for y in range(height):
                 for x in range(width):
                     idx = y * width + x
                     old_lum = luminance_map[idx]
@@ -139,8 +140,10 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
 
                 output_buffer.append('\033[0m\n')
 
-            sys.stdout.write(''.join(output_buffer))
+            #sys.stdout.write(''.join(output_buffer))
             # smooth playback
+
+            
             sys.stdout.flush()
 
             elapsed = time.time() - start_time
