@@ -53,7 +53,7 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
     width = calc_width
     height = calc_height
 
-    ascii_chars = " .:-=+*#%@"
+    ascii_chars = np.array(list(" .:-=+*#%@"))
 
     # separate vidoe but dont display
     # when the audio trach ends exit
@@ -149,6 +149,11 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             r = frame[0::3]
             g = frame[1::3]
             b = frame[2::3]
+
+            if not pixel_mode:
+                luminance = 0.299 * r + 0.587 * g + 0.114 * b
+                char_idx = np.round((luminance / 255.0) * (len(ascii_chars) - 1)).astype(np.uint8)
+                chars = ascii_chars[char_idx]
 
             
             
