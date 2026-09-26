@@ -139,7 +139,7 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             sys.stdout.flush()
 
             
-            sleep_time = frame_duration - elapsed
+            sleep_time = expected_time - time.time()
             if sleep_time > 0:
                 time.sleep(sleep_time)
 
