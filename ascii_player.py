@@ -172,8 +172,8 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
                     )
                 lines.append(line)
 
-            
-            
+            output = "\033[H" + "\033[0m\n".join(lines) + "\033[0m\n"
+            sys.stdout.write(output)
             sys.stdout.flush()
 
             elapsed = time.time() - start_time
