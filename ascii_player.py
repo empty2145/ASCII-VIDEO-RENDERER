@@ -155,6 +155,23 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
                 char_idx = np.round((luminance / 255.0) * (len(ascii_chars) - 1)).astype(np.uint8)
                 chars = ascii_chars[char_idx]
 
+            lines = []
+            for row in range(height):
+                start_idx = row * width
+                end_idx = start_idx + width
+
+                if pixel_mode:
+                    line = "".join(
+                        f"\033[48;2;{r[i]};{g[i]};{b[i]}m "
+                        for i in range(start_idx, end_idx)
+                    )
+                else:
+                    line = "".join(
+                        f"\033[38;2;{r[i]};{g[i]};{b[i]}m{chars[i]}"
+                        for i in range(start_idx, end_idx)
+                    )
+                lines.append(line)
+
             
             
             sys.stdout.flush()
