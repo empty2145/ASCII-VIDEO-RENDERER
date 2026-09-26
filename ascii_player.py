@@ -1,3 +1,4 @@
+import numpy as np
 import argparse
 import subprocess
 import time
@@ -143,6 +144,13 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             #sys.stdout.write(''.join(output_buffer))
             # smooth playback
 
+            frame = np.frombuffer(raw_frame, dtype=np.uint8)
+            
+            r = frame[0::3]
+            g = frame[1::3]
+            b = frame[2::3]
+
+            
             
             sys.stdout.flush()
 
