@@ -98,24 +98,25 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             raw_frame = video_process.stdout.read(frame_size)
             if len(raw_frame) != frame_size:
                 break
-
+            # frame tally
             frame_index += 1
+            # current frame * 1/fps and compare it to time now
             expected_time = start_time + (frame_index * frame_duration)
             if time.time() > expected_time:
                 continue
 
-
+            # every byte as binary
             frame = np.frombuffer(raw_frame, dtype=np.uint8)
-            
+            # skip over 3
             r = frame[0::3]
             g = frame[1::3]
             b = frame[2::3]
-
+            # pick the chars
             if not pixel_mode:
                 luminance = 0.299 * r + 0.587 * g + 0.114 * b
                 char_idx = np.round((luminance / 255.0) * char_count).astype(np.uint8)
                 chars = ascii_chars_array[char_idx]
-
+            #colors
             lines = []
             for row in range(height):
                 start_idx = row * width
@@ -137,7 +138,7 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             sys.stdout.write(output)
             sys.stdout.flush()
 
-            elapsed = time.time() - start_time
+            
             sleep_time = frame_duration - elapsed
             if sleep_time > 0:
                 time.sleep(sleep_time)
