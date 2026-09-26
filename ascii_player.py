@@ -55,6 +55,8 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
     ascii_chars = " .:-=+*#%@"
     ascii_chars_array = np.array(list(ascii_chars))
     char_count = len(ascii_chars) - 1
+    start_time = time.time()
+    frame_index = 0
 
 
     # separate vidoe but dont display
@@ -91,61 +93,9 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
 
     try:
         while True:
-            start_time = time.time()
-
             raw_frame = video_process.stdout.read(frame_size)
             if len(raw_frame) != frame_size:
                 break
-
-            # luminance_map = [0.0] * (width * height)
-            # for i in range(width * height):
-                idx = i * 3
-                r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
-                luminance_map[i] = 0.299*r + 0.587*g + 0.114*b
-
-
-
-            # output_buffer = ['\033[H']
-
-            # for y in range(height):
-                for x in range(width):
-                    idx = y * width + x
-                    old_lum = luminance_map[idx]
-                    old_lum = max(0.0, min(255.0, old_lum))
-                    char_idx = int(round((old_lum / 255.0) * (len(ascii_chars)-1)))
-                    new_lum = char_idx * (255.0 / (len(ascii_chars)-1))
-
-                    quant_error = old_lum - new_lum
-
-                    if x + 1 < width:
-                        luminance_map[idx + 1] += quant_error * 0.4375
-                    if y + 1 < height:
-                        if x - 1 >= 0:
-                            luminance_map[idx + width - 1] += quant_error * 0.1875
-                        luminance_map[idx + width] += quant_error * 0.3125
-                        if x + 1 < width:
-                            luminance_map[idx + width + 1] += quant_error * 0.0625
-
-                    rgb_idx = idx * 3
-                    r, g, b = raw_frame[rgb_idx], raw_frame[rgb_idx+1], raw_frame[rgb_idx+2]
-                    char = ascii_chars[char_idx]
-                    #r, g, b = raw_frame[idx], raw_frame[idx+1], raw_frame[idx+2]
-
-                    # luminance = int(0.299*r + 0.587*g + 0.114*b)
-                    # char_idx = int((luminance / 255.0) * (len(ascii_chars) - 1))
-                    # char = ascii_chars[char_idx]
-
-                    # paint the pixel this color
-                    if pixel_mode:
-                        output_buffer.append(f'\033[48;2;{r};{g};{b}m ')
-                    else:
-                        output_buffer.append(f'\033[38;2;{r};{g};{b}m{char}')
-
-                output_buffer.append('\033[0m\n')
-
-            #sys.stdout.write(''.join(output_buffer))
-            # smooth playback
-
             frame = np.frombuffer(raw_frame, dtype=np.uint8)
             
             r = frame[0::3]
