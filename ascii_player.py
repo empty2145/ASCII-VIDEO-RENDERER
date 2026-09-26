@@ -52,9 +52,11 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
 
     width = calc_width
     height = calc_height
+
     ascii_chars = " .:-=+*#%@"
     ascii_chars_array = np.array(list(ascii_chars))
     char_count = len(ascii_chars) - 1
+
     start_time = time.time()
     frame_index = 0
 
@@ -96,6 +98,13 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
             raw_frame = video_process.stdout.read(frame_size)
             if len(raw_frame) != frame_size:
                 break
+
+            frame_index += 1
+            expected_time = start_time + (frame_index * frame_duration)
+            if time.time() > expected_time:
+                continue
+
+
             frame = np.frombuffer(raw_frame, dtype=np.uint8)
             
             r = frame[0::3]
