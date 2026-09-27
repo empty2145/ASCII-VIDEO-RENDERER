@@ -42,7 +42,8 @@ def get_ytvideo(url):
         'js_runtimes': {
             'node': {}
         },
-        'cookiesfrombrowser': ('firefox', )
+        'cookiesfrombrowser': ('firefox', ),
+        'remote_components': ['ejs:github']
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
