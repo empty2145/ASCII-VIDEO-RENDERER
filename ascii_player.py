@@ -35,9 +35,11 @@ def get_ytvideo(url):
     import yt_dlp
 
     ydl_opts = {
-        'format': '18/22/best[ext=mp4]/best',
+        'format': 'b',
         'quiet': True,
-        'noplaylist': True
+        'noplaylist': True,
+        # try mimicking an android
+        'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
