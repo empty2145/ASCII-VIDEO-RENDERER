@@ -53,7 +53,7 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
     if target_path.startswith('http://') or target_path.startswith('https://'):
         sys.stdout.write("Extracting direct stream URL... please wait.\n")
         sys.stdout.flush()
-        play_url, aspect_ratio = get_aspect_ratio(target_path)
+        play_url, aspect_ratio = get_ytvideo(target_path)
     else:
         play_url = target_path
         aspect_ratio = get_aspect_ratio(target_path)
