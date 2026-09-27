@@ -35,7 +35,7 @@ def get_ytvideo(url):
     import yt_dlp
 
     ydl_opts = {
-        'format': 'best',
+        'format': '18/22/best[ext=mp4]/best',
         'quiet': True,
         'noplaylist': True
     }
