@@ -30,6 +30,9 @@ def get_aspect_ratio(video_path):
         return width / height
     except Exception as e:
         return 16 / 9
+# extract url and aspect ratio using ytdlp
+def get_ytvideo(url):
+    import yt_dlp
 
 def ascii_video(video_path, fps=24, pixel_mode=False):
     aspect_ratio = get_aspect_ratio(video_path)
