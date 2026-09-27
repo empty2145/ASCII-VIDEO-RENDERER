@@ -57,8 +57,6 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
     ascii_chars_array = np.array(list(ascii_chars))
     char_count = len(ascii_chars) - 1
 
-    start_time = time.time()
-    frame_index = 0
 
 
     # separate vidoe but dont display
@@ -92,6 +90,9 @@ def ascii_video(video_path, fps=24, pixel_mode=False):
     frame_duration = 1.0 / fps
 
     sys.stdout.write('\033[2J')
+
+    start_time = time.time()
+    frame_index = 0
 
     try:
         while True:
