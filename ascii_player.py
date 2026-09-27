@@ -34,6 +34,21 @@ def get_aspect_ratio(video_path):
 def get_ytvideo(url):
     import yt_dlp
 
+    ydl_opts = {
+        'format': 'best',
+        'quiet': True,
+        'noplaylist': True
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+
+        width = info.get('width', 16)
+        height = info.get('height', 9)
+        aspect = width / height
+
+        return info['url'], aspect
+
 def ascii_video(video_path, fps=24, pixel_mode=False):
     aspect_ratio = get_aspect_ratio(video_path)
 
