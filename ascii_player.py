@@ -39,7 +39,9 @@ def get_ytvideo(url):
         'quiet': True,
         'noplaylist': True,
         # try mimicking an android
-        'js_runtimes': ['node'],
+        'js_runtimes': {
+            'node': {}
+        },
         'cookiesfrombrowser': ('firefox', )
     }
 
