@@ -35,6 +35,7 @@ def get_ytvideo(url):
     import yt_dlp
 
     ydl_opts = {
+        # download best, but also the one that has both audio and vdieo precombined not seprate
         'format': 'b',
         'quiet': True,
         'noplaylist': True,
@@ -42,7 +43,9 @@ def get_ytvideo(url):
         'js_runtimes': {
             'node': {}
         },
+        # get the cookeues
         'cookiesfrombrowser': ('firefox', ),
+        # fetch a community written script to bypass the youtube anti scarpper system
         'remote_components': ['ejs:github']
     }
 
