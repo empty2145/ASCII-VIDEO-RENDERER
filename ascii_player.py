@@ -125,7 +125,7 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
 
     sys.stdout.write('\033[2J')
 
-    start_time = time.time()
+    start_time = None
     frame_index = 0
 
     try:
@@ -133,6 +133,8 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
             raw_frame = video_process.stdout.read(frame_size)
             if len(raw_frame) != frame_size:
                 break
+            if start_time is None:
+                start_time = time.time()
             # frame tally
             frame_index += 1
             # current frame * 1/fps and compare it to time now
