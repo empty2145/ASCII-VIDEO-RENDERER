@@ -39,7 +39,8 @@ def get_ytvideo(url):
         'quiet': True,
         'noplaylist': True,
         # try mimicking an android
-        'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
+        'extractor_args': {'youtube': {'player_client': ['android', 'web']}},
+        'cookiesfrombrowser': ('firefox', )
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
