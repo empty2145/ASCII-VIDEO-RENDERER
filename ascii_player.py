@@ -59,10 +59,6 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
         aspect_ratio = get_aspect_ratio(target_path)
 
 
-
-
-    aspect_ratio = get_aspect_ratio(video_path)
-
     # take the width and height of the terminal
     # leave a row empty at the bottom to remove the jumping
     term_cols, term_lines = shutil.get_terminal_size()
@@ -96,13 +92,13 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
         '-nodisp',
         '-autoexit',
         '-loglevel', 'quiet',
-        video_path
+        play_url
     ]
 
     # ask dat thing
     command = [
         'ffmpeg',
-        '-i', video_path,
+        '-i', play_url,
         '-vcodec', 'rawvideo',
         '-pix_fmt', 'rgb24',
         '-r', str(fps),
