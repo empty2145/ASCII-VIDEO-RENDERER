@@ -145,6 +145,7 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
             # every byte as binary
             frame = np.frombuffer(raw_frame, dtype=np.uint8)
             # skip over 3
+            # scrunch the colors
             r = frame[0::3] & 0xF0
             g = frame[1::3] & 0xF0
             b = frame[2::3] & 0xF0
