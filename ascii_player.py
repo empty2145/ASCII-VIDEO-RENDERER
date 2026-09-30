@@ -160,17 +160,26 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
                 start_idx = row * width
                 end_idx = start_idx + width
 
-                if pixel_mode:
-                    line = "".join(
-                        f"\033[48;2;{r[i]};{g[i]};{b[i]}m "
-                        for i in range(start_idx, end_idx)
-                    )
-                else:
-                    line = "".join(
-                        f"\033[38;2;{r[i]};{g[i]};{b[i]}m{chars[i]}"
-                        for i in range(start_idx, end_idx)
-                    )
-                lines.append(line)
+                line_parts = []
+
+                lr, lg, lb = -1, -1, -1
+
+                for i in range(start_idx, end_idx):
+                    cr, cg, cb = r[i], g[i], b[i]
+                    if cr != lr or cg != lg or cb != lb:
+                        lr, lg, lb = cr, cg, cb
+                        if pixel_mode:
+                            line_parts.append(f"\033[48;2;{cr};{cg};{cb}m ")
+                        else:
+                            line_parts.append(f"\033[38;2;{cr};{cg};{cb}m{chars[i]}")
+                    else:
+                        # The color is identical. Skip the ANSI code and just draw the pixel.
+                        if pixel_mode:
+                            line_parts.append(" ")
+                        else:
+                            line_parts.append(chars[i])
+
+                lines.append("".join(line_parts))
 
             output = "\033[H" + "\033[0m\n".join(lines) + "\033[0m\n"
             sys.stdout.write(output)
