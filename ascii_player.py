@@ -172,7 +172,12 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
                             line_parts.append(f"\033[48;2;{cr};{cg};{cb}m ")
                         else:
                             line_parts.append(f"\033[38;2;{cr};{cg};{cb}m{chars[i]}")
-                        
+                    else:
+                        # The color is identical. Skip the ANSI code and just draw the pixel.
+                        if pixel_mode:
+                            line_parts.append(" ")
+                        else:
+                            line_parts.append(chars[i])
 
                 if pixel_mode:
                     line = "".join(
