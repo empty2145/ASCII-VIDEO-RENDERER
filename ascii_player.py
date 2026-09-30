@@ -179,17 +179,7 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
                         else:
                             line_parts.append(chars[i])
 
-                if pixel_mode:
-                    line = "".join(
-                        f"\033[48;2;{r[i]};{g[i]};{b[i]}m "
-                        for i in range(start_idx, end_idx)
-                    )
-                else:
-                    line = "".join(
-                        f"\033[38;2;{r[i]};{g[i]};{b[i]}m{chars[i]}"
-                        for i in range(start_idx, end_idx)
-                    )
-                lines.append(line)
+                lines.append("".join(line_parts))
 
             output = "\033[H" + "\033[0m\n".join(lines) + "\033[0m\n"
             sys.stdout.write(output)
