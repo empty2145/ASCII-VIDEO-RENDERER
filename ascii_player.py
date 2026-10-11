@@ -71,11 +71,11 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
     # take the width and height of the terminal
     # leave a row empty at the bottom to remove the jumping
     term_cols, term_lines = shutil.get_terminal_size()
-    max_height = term_lines - 1
+    max_height = (term_lines - 1) * 2 if pixel_mode else term_lines - 1
     max_width = term_cols
 
 
-    font_ratio = 2
+    font_ratio = 1.0 if pixel_mode else 2.2
 
     calc_width = max_width
     calc_height = int((calc_width / aspect_ratio) / font_ratio)
@@ -83,6 +83,9 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
     if calc_height > max_height:
         calc_height = max_height
         calc_width = int(calc_height * font_ratio * aspect_ratio)
+
+    if calc_height % 2 != 0:
+        calc_height -= 1
 
     width = calc_width
     height = calc_height
