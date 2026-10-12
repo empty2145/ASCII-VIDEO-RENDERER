@@ -162,12 +162,21 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
 
             if pixel_mode:
                 for row in range(0, height, 2):
+                    # two rows at a time
                     top_start = row * width
                     bot_start = (row + 1) + width
 
                     line_parts = []
+                    # previous pixel
+                    ltr, ltg, ltb = -1, -1, -1
+                    lbr, lbg, lbb = -1, -1, -1
 
-                    lr, lg, lb = -1, -1, -1
+                    for x in range(width):
+                        t_idx = top_start + x
+                        b_idx = bot_start + x
+
+                        tr, tg, tb = r[t_idx], g[t_idx], b[t_idx]
+                        br, bg, bb = r[b_idx], g[b_idx], b[b_idx]
 
                     for i in range(start_idx, end_idx):
                         cr, cg, cb = r[i], g[i], b[i]
