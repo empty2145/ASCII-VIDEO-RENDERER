@@ -162,28 +162,46 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
 
             if pixel_mode:
                 for row in range(0, height, 2):
+                    # two rows at a time
+                    top_start = row * width
+                    bot_start = (row + 1) + width
+
+                    line_parts = []
+                    # previous pixel
+                    ltr, ltg, ltb = -1, -1, -1
+                    lbr, lbg, lbb = -1, -1, -1
+
+                    for x in range(width):
+                        t_idx = top_start + x
+                        b_idx = bot_start + x
+
+                        tr, tg, tb = r[t_idx], g[t_idx], b[t_idx]
+                        br, bg, bb = r[b_idx], g[b_idx], b[b_idx]
+
+                        if tr != ltr or tg != ltg or tb != ltb or br != lbr or bg != lbg or bb != lbb:
+                            ltr, ltg, ltb = tr, tg, tb
+                            lbr, lbg, lbb = br, bg, bb
+
+                            line_parts.append(f"\033[38;2;{tr};{tg};{tb}m\033[48;2;{br};{bg};{bb}m▀")
+                        else:
+                            line_parts.append("▀")
+
+                    lines.append("".join(line_parts))
+            else:
+                for row in range(height):
                     start_idx = row * width
                     end_idx = start_idx + width
 
                     line_parts = []
-
                     lr, lg, lb = -1, -1, -1
 
                     for i in range(start_idx, end_idx):
                         cr, cg, cb = r[i], g[i], b[i]
                         if cr != lr or cg != lg or cb != lb:
                             lr, lg, lb = cr, cg, cb
-                            if pixel_mode:
-                                line_parts.append(f"\033[48;2;{cr};{cg};{cb}m ")
-                            else:
-                                line_parts.append(f"\033[38;2;{cr};{cg};{cb}m{chars[i]}")
+                            line_parts.append(f"\033[38;2;{cr};{cg};{cb}m{chars[i]}")
                         else:
-                            # The color is identical. Skip the ANSI code and just draw the pixel.
-                            if pixel_mode:
-                                line_parts.append(" ")
-                            else:
-                                line_parts.append(chars[i])
-
+                            line_parts.append(chars[i])
                     lines.append("".join(line_parts))
 
             output = "\033[H" + "\033[0m\n".join(lines) + "\033[0m\n"
