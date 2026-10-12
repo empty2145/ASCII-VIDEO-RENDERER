@@ -162,8 +162,8 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
 
             if pixel_mode:
                 for row in range(0, height, 2):
-                    start_idx = row * width
-                    end_idx = start_idx + width
+                    top_start = row * width
+                    bot_start = (row + 1) + width
 
                     line_parts = []
 
