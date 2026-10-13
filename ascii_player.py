@@ -50,7 +50,8 @@ def get_ytvideo(url):
 
         width = info.get('width', 16)
         height = info.get('height', 9)
-        aspect = width / height
+        duration = info.get('duration', 0)
+        aspect = width / height, duration
 
         return info['url'], aspect
 
@@ -58,10 +59,10 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
     if target_path.startswith('http://') or target_path.startswith('https://'):
         sys.stdout.write("Extracting direct stream URL... please wait.\n")
         sys.stdout.flush()
-        play_url, aspect_ratio = get_ytvideo(target_path)
+        play_url, aspect_ratio, total_duration = get_ytvideo(target_path)
     else:
         play_url = target_path
-        aspect_ratio = get_aspect_ratio(target_path)
+        aspect_ratio, total_duration = get_aspect_ratio(target_path)
 
 
     # take the width and height of the terminal
