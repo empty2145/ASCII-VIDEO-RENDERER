@@ -207,7 +207,16 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
 
             time_str = f"{curr_m:02d}:{curr_s:02d} / {tot_m:02d}:{tot_s:02d}"
 
-            output = "\033[H" + "\033[0m\n".join(lines) + "\033[0m\n"
+            bar_space = max_width - len(time_str) - 3
+
+            if bar_space > 10 and total_duration > 0:
+                filled  = int((current_sec / total_duration) * bar_space)
+                empty = bar_space - filled
+                bar = f"\033[0m\n[{'━' * filled}◯{' ' * max(0, empty - 1)}] {time_str}"
+            else:
+                bar = f"\033[0m\n{time_str.rjust(max_width)}"
+
+            output = "\033[H" + "\033[0m\n".join(lines) + bar
             sys.stdout.write(output)
             sys.stdout.flush()
 
