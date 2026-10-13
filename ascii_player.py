@@ -12,12 +12,9 @@ def get_aspect_ratio(video_path):
     # fetch only width and height 
     # output format json
     command = [
-        'ffprobe',
-        '-v', 'error',
-        '-select_streams', 'v:0',
-        '-show_entries', 'stream=width,height',
-        '-of', 'json',
-        video_path
+        'ffprobe', '-v', 'error',
+        '-show_entries', 'stream=width,height:format=duration',
+        '-of', 'json', video_path
     ]
     try:
         # await, pipe the output and error, convert the raw data into python string
@@ -27,18 +24,17 @@ def get_aspect_ratio(video_path):
         info = json.loads(result.stdout)
         width = info['streams'][0]['width']
         height = info['streams'][0]['height']
-        return width / height
-    except Exception as e:
-        return 16 / 9
+        duration = float(info.get('format', {}).get('duration', 0))
+        return width / height, duration
+    except Exception:
+        return 16 / 9, 0
 # extract url and aspect ratio using ytdlp
 def get_ytvideo(url):
     import yt_dlp
 
     ydl_opts = {
         # download best, but also the one that has both audio and vdieo precombined not seprate
-        'format': 'b',
-        'quiet': True,
-        'noplaylist': True,
+        'format': 'b', 'quiet': True, 'noplaylist': True,
         # try mimicking an android
         'js_runtimes': {
             'node': {}
@@ -54,7 +50,8 @@ def get_ytvideo(url):
 
         width = info.get('width', 16)
         height = info.get('height', 9)
-        aspect = width / height
+        duration = info.get('duration', 0)
+        aspect = width / height, duration
 
         return info['url'], aspect
 
@@ -62,10 +59,10 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
     if target_path.startswith('http://') or target_path.startswith('https://'):
         sys.stdout.write("Extracting direct stream URL... please wait.\n")
         sys.stdout.flush()
-        play_url, aspect_ratio = get_ytvideo(target_path)
+        play_url, aspect_ratio, total_duration = get_ytvideo(target_path)
     else:
         play_url = target_path
-        aspect_ratio = get_aspect_ratio(target_path)
+        aspect_ratio, total_duration = get_aspect_ratio(target_path)
 
 
     # take the width and height of the terminal
@@ -164,7 +161,7 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
                 for row in range(0, height, 2):
                     # two rows at a time
                     top_start = row * width
-                    bot_start = (row + 1) + width
+                    bot_start = (row + 1) * width
 
                     line_parts = []
                     # previous pixel
