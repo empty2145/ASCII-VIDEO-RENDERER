@@ -12,12 +12,9 @@ def get_aspect_ratio(video_path):
     # fetch only width and height 
     # output format json
     command = [
-        'ffprobe',
-        '-v', 'error',
-        '-select_streams', 'v:0',
-        '-show_entries', 'stream=width,height',
-        '-of', 'json',
-        video_path
+        'ffprobe', '-v', 'error',
+        '-show_entries', 'stream=width,height:format=duration',
+        '-of', 'json', video_path
     ]
     try:
         # await, pipe the output and error, convert the raw data into python string
@@ -27,18 +24,17 @@ def get_aspect_ratio(video_path):
         info = json.loads(result.stdout)
         width = info['streams'][0]['width']
         height = info['streams'][0]['height']
-        return width / height
-    except Exception as e:
-        return 16 / 9
+        duration = float(info.get('format', {}).get('duration', 0))
+        return width / height, duration
+    except Exception:
+        return 16 / 9, 0
 # extract url and aspect ratio using ytdlp
 def get_ytvideo(url):
     import yt_dlp
 
     ydl_opts = {
         # download best, but also the one that has both audio and vdieo precombined not seprate
-        'format': 'b',
-        'quiet': True,
-        'noplaylist': True,
+        'format': 'b', 'quiet': True, 'noplaylist': True,
         # try mimicking an android
         'js_runtimes': {
             'node': {}
