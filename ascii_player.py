@@ -201,6 +201,12 @@ def ascii_video(target_path, fps=24, pixel_mode=False):
                             line_parts.append(chars[i])
                     lines.append("".join(line_parts))
 
+            current_sec = frame_index / fps
+            curr_m, curr_s = divmod(int(current_sec), 60)
+            tot_m, tot_s = divmod(int(total_duration), 60)
+
+            time_str = f"{curr_m:02d}:{curr_s:02d} / {tot_m:02d}:{tot_s:02d}"
+
             output = "\033[H" + "\033[0m\n".join(lines) + "\033[0m\n"
             sys.stdout.write(output)
             sys.stdout.flush()
